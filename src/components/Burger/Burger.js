@@ -1,8 +1,10 @@
 import React from 'react';
 import classes from './Burger.css';
-import BurgerIngredient from './BurgerIngredient/BurgerIngredient'
+import BurgerIngredient from './BurgerIngredient/BurgerIngredient';
 
 const burger = (props) => {
+
+    console.log(props);
 
     //Object.key giмes arraye from object keys
     let transformedIngridients = Object.keys(props.ingredients)
