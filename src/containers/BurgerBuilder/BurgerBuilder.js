@@ -12,17 +12,11 @@ import { connect } from 'react-redux';
 import * as actionTypes from '../../store/actions'
 
 
-const INGREDIENTS_PRICES = {
-    salad: 0.5,
-    bacon: 0.7,
-    cheese: 0.4,
-    meat: 1.3
-}
+
 
 class BurgerBuilder extends Component {
 
     state = {
-        totalPrice: 4,
         pusrchasable: false,
         purchasing: false,
         loading: false,
@@ -54,43 +48,6 @@ class BurgerBuilder extends Component {
         this.setState({pusrchasable: sum > 0})
     }
 
-    addIngredientHandler = (type) => {
-        const oldCount = this.state.ingredients[type];
-        const updatedCount = oldCount + 1;
-        const updatedIngredients = {
-            ...this.state.ingredients
-        }
-        updatedIngredients[type] = updatedCount;
-
-        const priceAddition = INGREDIENTS_PRICES[type];
-        const oldPrice = this.state.totalPrice;
-        const newPrice = oldPrice + priceAddition;
-
-        this.setState({ totalPrice: newPrice, ingredients: updatedIngredients })
-        this.updatePurchaseState(updatedIngredients);
-    }
-
-    removeIngredientHandler = (type) => {
-        const oldCount = this.state.ingredients[type];
-
-        if (oldCount <= 0) {
-            return;
-        }
-
-        const updatedCount = oldCount - 1;
-        const updatedIngredients = {
-            ...this.state.ingredients
-        }
-        updatedIngredients[type] = updatedCount;
-
-        const priceDeduction = INGREDIENTS_PRICES[type];
-        const oldPrice = this.state.totalPrice;
-        const newPrice = oldPrice - priceDeduction;
-
-        this.setState({ totalPrice: newPrice, ingredients: updatedIngredients })
-        this.updatePurchaseState(updatedIngredients);
-    }
-
     purchasehandler = () => {
         this.setState({ purchasing: true });
     }
@@ -109,7 +66,7 @@ class BurgerBuilder extends Component {
             queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]))
         }
 
-        queryParams.push('price=' + this.state.totalPrice)
+        queryParams.push('price=' + this.props.price)
 
         console.log(queryParams);
         const queryString = queryParams.join('&');
@@ -142,14 +99,14 @@ class BurgerBuilder extends Component {
                         ingredientAdded={this.props.onIngredientAdded}
                         ingredientRemoved={this.props.onIngredientRemoved}
                         disabled={disabledInfo}
-                        price={this.state.totalPrice}
+                        price={this.props.price}
                         pusrchasable={this.state.pusrchasable}
                         ordered={this.purchasehandler}
                     />
                 </Aux>
             );
             orderSummary = <OrderSummary
-                            price={this.state.totalPrice}
+                            price={this.props.price}
                             purchaseCanceled={this.purschaseCancelHandler}
                             purchaseContinued={this.purchaseContinueHandler}
                             ingredients={this.props.ings}
@@ -176,7 +133,8 @@ class BurgerBuilder extends Component {
 
 const mapStateToProps = state => {
     return {
-        ings: state.ingredients
+        ings: state.ingredients,
+        price: state.totalPrice
     }
 }
 
