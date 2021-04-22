@@ -1,5 +1,4 @@
 import * as actionTypes from '../actions/actionTypes';
-import { authfail } from '../actions/auth';
 
 import {updateObject} from '../utility'
 

@@ -1,5 +1,4 @@
 import * as actionTypes from '../actions/actionTypes';
-import { fetchIngredientsFailed } from '../actions/burgerBuilder';
 import { updateObject } from '../utility';
 
 const initialState = {
