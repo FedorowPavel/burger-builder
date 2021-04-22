@@ -34,6 +34,7 @@ class Layout extends Component {
                 <main className={classes.Content}>
                     {this.props.children}
                 </main>
+                <p>{this.props.userId}</p>
         </Aux>
         )
     }
@@ -41,7 +42,7 @@ class Layout extends Component {
 
 const mapStateToPropps = state => {
     return {
-        isAuthenticated: state.auth.token !== null
+        isAuthenticated: state.auth.token !== null,
     }
 }
 
